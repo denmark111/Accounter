@@ -16,7 +16,7 @@ public class GoAccountSubjectEntity {
 
     @Id
     @GeneratedValue
-    private long accountId;
+    private Long accountId;
 
     private String accountSystem;
     private String accountSubjectNameDetail;

@@ -4,6 +4,7 @@ import com.accounter.restapi.model.entities.GoAccountSubjectEntity;
 import com.accounter.restapi.model.params.GoAccountSubjectParam;
 import com.accounter.restapi.model.results.GoAccountSubjectResult;
 import com.accounter.restapi.repository.GoAccountSubjectRepo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,7 @@ public class AccountService {
         List<GoAccountSubjectEntity> accountList = goAccountSubjectRepo.findAll();
         List<GoAccountSubjectResult> results = accountList.stream().map(goAccountSubjectEntity -> {
             GoAccountSubjectResult accountResult = new GoAccountSubjectResult();
-
-            accountResult.setDivision(goAccountSubjectEntity.getDivision());
-            accountResult.setAccountId(goAccountSubjectEntity.getAccountId());
-            accountResult.setAccountSubjectName(goAccountSubjectEntity.getAccountSubjectName());
-            accountResult.setAccountCode(goAccountSubjectEntity.getAccountCode());
-            accountResult.setRelationCode(goAccountSubjectEntity.getRelationCode());
+            BeanUtils.copyProperties(goAccountSubjectEntity, accountResult);
 
             return accountResult;
         }).collect(Collectors.toList());
@@ -39,12 +35,7 @@ public class AccountService {
     @Transactional
     public void add(GoAccountSubjectParam param) {
         GoAccountSubjectEntity gase = new GoAccountSubjectEntity();
-
-        gase.setAccountSubjectName(param.getAccountSubjectName());
-        gase.setAccountCode(param.getAccountCode());
-        gase.setRelationCode(param.getRelationCode());
-        gase.setDivision(param.getDivision());
-
+        BeanUtils.copyProperties(param, gase);
         goAccountSubjectRepo.save(gase);
     }
 
@@ -52,11 +43,7 @@ public class AccountService {
     public void edit(GoAccountSubjectParam param) {
         Optional<GoAccountSubjectEntity> getEntity = goAccountSubjectRepo.findById(param.getAccountId());
         getEntity.ifPresent(entity -> {
-
-            entity.setAccountSubjectName(param.getAccountSubjectName());
-            entity.setAccountCode(param.getAccountCode());
-            entity.setRelationCode(param.getRelationCode());
-
+            BeanUtils.copyProperties(param, entity);
             goAccountSubjectRepo.save(entity);
         });
     }
