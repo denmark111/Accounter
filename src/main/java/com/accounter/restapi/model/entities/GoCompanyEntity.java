@@ -17,7 +17,7 @@ public class GoCompanyEntity {
 
     @Id
     @GeneratedValue
-    private long companyId;
+    private Long companyId;
 
     private Long connectionId;
     private Long usersTotal;

@@ -4,8 +4,10 @@ import com.accounter.restapi.model.entities.GoAccountSubjectEntity;
 import com.accounter.restapi.model.entities.GoCompanyEntity;
 import com.accounter.restapi.model.params.GoCompanyParam;
 import com.accounter.restapi.model.results.GoCompanyResult;
+import com.accounter.restapi.model.results.httpStatusWrapper;
 import com.accounter.restapi.repository.GoAccountSubjectRepo;
 import com.accounter.restapi.repository.GoCompanyRepo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,34 +26,49 @@ public class CompanyService {
     GoAccountSubjectRepo goAccountSubjectRepo;
 
     @Transactional
-    public List<GoCompanyResult> getCompany() {
+    public httpStatusWrapper getCompany() {
+
+        httpStatusWrapper hsw = new httpStatusWrapper();
+
         List<GoCompanyEntity> companyList = goCompanyRepo.findAll();
         List<GoCompanyResult> results = companyList.stream().map(goCompanyEntity -> {
             GoCompanyResult companyResult = new GoCompanyResult();
+            List<GoAccountSubjectEntity> accountList = goAccountSubjectRepo.findAll();
 
-            companyResult.setCompanyId(goCompanyEntity.getCompanyId());
-            companyResult.setCompanyName(goCompanyEntity.getCompanyName());
-            companyResult.setServiceType(goCompanyEntity.getServiceType());
+            BeanUtils.copyProperties(goCompanyEntity, companyResult);
+            companyResult.setAccountCount(accountList.size());
+            companyResult.setAccounts(accountList);
 
             return companyResult;
         }).collect(Collectors.toList());
 
-        return results;
+        hsw.setStatusCode("200");
+        hsw.setStatusMessage("OK");
+        hsw.setGoCompanyResult(results);
+
+        return hsw;
     }
 
     @Transactional
-    public Object getCompany(Long cid) {
-        return goCompanyRepo.findById(cid).map(goCompanyEntity -> {
+    public httpStatusWrapper getCompany(Long cid) {
+
+        httpStatusWrapper hsw = new httpStatusWrapper();
+
+        hsw.setGoCompanyResult(goCompanyRepo.findById(cid).map(goCompanyEntity -> {
             GoCompanyResult companyResult = new GoCompanyResult();
             List<GoAccountSubjectEntity> accountList = goAccountSubjectRepo.findByDivision(cid);
 
+            BeanUtils.copyProperties(goCompanyEntity, companyResult);
             companyResult.setAccountCount(accountList.size());
             companyResult.setAccounts(accountList);
-            companyResult.setCompanyName(goCompanyEntity.getCompanyName());
-            companyResult.setServiceType(goCompanyEntity.getServiceType());
 
             return companyResult;
-        });
+        }));
+
+        hsw.setStatusCode("200");
+        hsw.setStatusMessage("OK");
+
+        return hsw;
     }
 
     @Transactional

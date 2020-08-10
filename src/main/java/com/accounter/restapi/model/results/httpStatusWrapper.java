@@ -6,11 +6,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class httpStatusWrapper {
 
     String statusCode;
     String statusMessage;
 
-    GoCompanyResult goCompanyResult;
+    Object goCompanyResult;
 }
