@@ -28,6 +28,9 @@ public class GoCompanyResult {
     String companyName;
     String serviceType;
 
+    // GoCompanyEntity 와는 다르게
+    // 기업 정보를 반환할 때 해당 기업이 가진 계정정보도 모두 표시해야 하므로
+    // 리스트 형태의 계정 오브젝트를 포함함.
     List<GoAccountSubjectEntity> accounts;
 
     Date createdAt;

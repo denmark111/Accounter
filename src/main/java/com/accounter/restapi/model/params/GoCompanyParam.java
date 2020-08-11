@@ -36,8 +36,6 @@ public class GoCompanyParam {
     @NotEmpty
     String serviceType;
 
-    List<GoAccountSubjectEntity> accounts;
-
     Date createdAt;
     Date modifiedAt;
     Date deletedAt;
