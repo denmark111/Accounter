@@ -8,19 +8,27 @@ Accounter가 제공하는 핵심 기능은 다음과 같습니다.
 
 - [x] HTTP를 통한 CRUD Rest API
 - [ ] csv to DB Import (TBD)
-- [ ] Web GUI 환경
+- [ ] Web GUI 환경 (TBD)
 
-### 2. 구성상세
+### 2. 개발환경  
+
+- SpringBoot + Maven
+- JAVA: 1.8
+- IDE : IntelliJ
+- DB: H2 (On Memory)
+- Plugins : Lombok
+
+### 3. 구성상세
 
 Accounter 서비스는 다음과 같이 구성되어 있습니다.
 
 - DB Schema  
-  []()
+  ![schema](./dbSchema.png)
 - 서비스 전달 경로  
   ![structure](./serviceStructure.png)
 
   
-### 3. API 요청형식
+### 4. API 요청형식
 
 Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다.
 
@@ -108,7 +116,7 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
     ```
 
 - go_account_subject
-  - GET
+  - **GET**
     - Request URL
     ``` url
     http://serverIp:serverPort/api/accounts/all   // 모든 계정정보 조회
@@ -129,7 +137,7 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
     }
     ```
 
-  - POST
+  - **POST**
     - Request URL
     ``` url
     http://serverIp:serverPort/api/accounts/add
@@ -158,7 +166,7 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
     }
     ```
 
-  - PUT
+  - **PUT**
     - Request URL
     ``` url
     http://serverIp:serverPort/api/accounts/{accountId}   // 수정을 원하는 {accountId}
@@ -174,7 +182,7 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
     {}
     ```
 
-  - DELETE
+  - **DELETE**
     - Request URL
     ``` url
     http://serverIp:serverPort/api/accounts/{accountId}   // 제거를 원하는 {accountId}
@@ -188,13 +196,13 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
     {}
     ```
 
-### 4. 테스트 방법
+### 5. 테스트 방법
 
-Postman 툴을 이용하여 JSON 형태의 body 전송 후 반환 결과 확인 (WIP)
+Postman 툴을 이용하여 JSON 형태의 body 전송 후 반환 결과 확인 (TBD)
 
-### 5. 수행결과
+### 6. 수행결과 (TBD)
 
-올바른 JSON 형식 및 포멧으로 반환되는지 확인 (WIP)
+올바른 JSON 형식 및 포멧으로 반환되는지 확인 (TBD)
 
 - go_company
   - GET

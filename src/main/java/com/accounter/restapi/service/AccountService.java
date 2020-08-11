@@ -48,6 +48,30 @@ public class AccountService {
         return hsw;
     }
 
+    // DB에 저장된 기업 중 특정 ID를 가진 계정정보 1개를 조회
+    // 인자로 받는 aid는 계정정보의 고유 ID
+    // AccountService.getAccount()와 매우 유사하지만 단일 계정보 조회를 목적으로 하기에
+    // 별도의 리스트가 아닌 GoAccountSubjectResult 객체에 담아서 결과 반환
+    @Transactional
+    public httpStatusWrapper getAccount(Long aid) {
+
+        httpStatusWrapper hsw = new httpStatusWrapper();
+
+        hsw.setReturnResult(goAccountSubjectRepo.findById(aid).map((goAccountSubjectEntity -> {
+            GoAccountSubjectResult goAccountSubjectResult = new GoAccountSubjectResult();
+
+            BeanUtils.copyProperties(goAccountSubjectEntity, goAccountSubjectResult);
+
+            return goAccountSubjectResult;
+        })));
+
+        hsw.setStatusCode("200");
+        hsw.setStatusMessage("OK");
+
+        return hsw;
+
+    }
+
     // Controller에서 전달받은 계정정보(GoAccountSubjectParam 객체로 전달)를 DB에 신규로 추가
     @Transactional
     public void add(GoAccountSubjectParam param) {
@@ -68,7 +92,7 @@ public class AccountService {
         getEntity.ifPresent(entity -> {
             // 우선 입력받은 계정정보가 이미 DB에 존재하는지 체크 후
             // 있다면 값을 넣고 없다면 그냥 스킵
-            BeanUtils.copyProperties(param, entity);
+            BeanUtils.copyProperties(param, entity, "accountId");
             goAccountSubjectRepo.save(entity);
         });
     }

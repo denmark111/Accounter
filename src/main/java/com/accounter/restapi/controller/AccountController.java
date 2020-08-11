@@ -25,13 +25,13 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccount());
     }
 
-//    @GetMapping(
-//            value = "/{aid}",
-//            produces = MediaType.APPLICATION_JSON_VALUE
-//    )
-//    public ResponseEntity get(@PathVariable("aid") Long aid) {
-//        return ResponseEntity.ok(accountService.getAccount(aid));
-//    }
+    @GetMapping(
+            value = "/{aid}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity get(@PathVariable("aid") Long aid) {
+        return ResponseEntity.ok(accountService.getAccount(aid));
+    }
 
     @PostMapping(
             value = "/add",
