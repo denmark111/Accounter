@@ -14,9 +14,9 @@ Accounter가 제공하는 핵심 기능은 다음과 같습니다.
 
 Accounter 서비스는 다음과 같이 구성되어 있습니다.
 
-- DB Schema
+- DB Schema  
   []()
-- 서비스 전달 경로
+- 서비스 전달 경로  
   ![structure](./serviceStructure.png)
 
   
