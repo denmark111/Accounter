@@ -83,12 +83,17 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
   - **PUT**
     - Request URL
     ``` url
+    http://serverIp:serverPort/api/companies/{companyId}  // 수정을 원하는 companyId
     ```
     - Request Body
     ``` json
+    {
+      // 수정이 필요한 데이터 항목
+    }
     ```
     - Response Body
     ``` json
+    {}
     ```
 
 
@@ -106,54 +111,90 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
   - GET
     - Request URL
     ``` url
+    http://serverIp:serverPort/api/accounts/all   // 모든 계정정보 조회
     ```
     - Request Body
+    _별도의 형식 없는 빈 JSON_
     ``` json
+    {}
     ```
     - Response Body
     ``` json
+    {
+      "statusCode": "200",
+      "statusMessage": "OK",
+      "returnResult": [
+        // 반환된 데이터
+      ]
+    }
     ```
 
   - POST
     - Request URL
     ``` url
+    http://serverIp:serverPort/api/accounts/add
     ```
     - Request Body
     ``` json
+    {
+      "accountSytem": (String),                     // 계정체계
+      "accountSubjectNameDetail": (String),         // 과목명(세목)
+      "accountSubjectName": (String),               // 과목명(목)
+      "relationAccountSubjectNameDetail": (String), // 관계계정과목명
+      "division": (Long),                           // 회사코드
+      "accountCode": (Long),                        // 계정코드
+      "relationCode": (Long),                       // 관계코드
+      "createdAt": (Date),                          // 생성일
+      "modifiedAt": (Date),                         // 수정일
+      "deletedAt": (Date)                           // 삭제일
+    }
     ```
     - Response Body
     ``` json
+    {
+      "statusCode": "200",
+      "statusMessage": "OK",
+      "returnResult": []
+    }
     ```
 
   - PUT
     - Request URL
     ``` url
+    http://serverIp:serverPort/api/accounts/{accountId}   // 수정을 원하는 {accountId}
     ```
     - Request Body
     ``` json
+    {
+      // 수정이 필요한 데이터 항목
+    }
     ```
     - Response Body
     ``` json
+    {}
     ```
 
   - DELETE
     - Request URL
     ``` url
+    http://serverIp:serverPort/api/accounts/{accountId}   // 제거를 원하는 {accountId}
     ```
     - Request Body
     ``` json
+    {}
     ```
     - Response Body
     ``` json
+    {}
     ```
 
 ### 4. 테스트 방법
 
-Postman 툴을 이용하여 JSON 형태의 body 전송 후 반환 결과 확인
+Postman 툴을 이용하여 JSON 형태의 body 전송 후 반환 결과 확인 (WIP)
 
 ### 5. 수행결과
 
-올바른 JSON 형식 및 포멧으로 반환되는지 확인
+올바른 JSON 형식 및 포멧으로 반환되는지 확인 (WIP)
 
 - go_company
   - GET
