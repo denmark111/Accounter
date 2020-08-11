@@ -17,7 +17,7 @@ Accounter 서비스는 다음과 같이 구성되어 있습니다.
 - DB Schema
   []()
 - 서비스 전달 경로
-  ![structure](./serviceStructure.png){: width="50%" height="50%"}
+  ![structure](./serviceStructure.png)
 
   
 ### 3. API 요청형식
