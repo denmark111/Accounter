@@ -98,13 +98,13 @@ public class CompanyService {
     // Controller에서 전달받은 기업정보를 DB에서 수정 / 업데이트
     // CompanyService.add(GoCompanyParam param)와 매우 유사
     @Transactional
-    public void edit(GoCompanyParam param) {
-        Optional<GoCompanyEntity> getEntity = goCompanyRepo.findById(param.getCompanyId());
+    public void edit(Long id, GoCompanyParam param) {
+        Optional<GoCompanyEntity> getEntity = goCompanyRepo.findById(id);
         getEntity.ifPresent(gce -> {
 
             // 우선 입력받은 기업정보가 이미 DB에 존재하는지 체크 후
             // 있다면 값을 넣고 없다면 그냥 스킵
-            BeanUtils.copyProperties(param, gce);
+            BeanUtils.copyProperties(param, gce, "companyId");
             goCompanyRepo.save(gce);
         });
     }

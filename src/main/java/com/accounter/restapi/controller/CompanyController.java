@@ -46,8 +46,9 @@ public class CompanyController {
             value = "/{cid}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity edit(@RequestBody @Valid GoCompanyParam param) {
-        companyService.edit(param);
+    public ResponseEntity edit(@PathVariable("cid") Long cid,
+                               @RequestBody @Valid GoCompanyParam param) {
+        companyService.edit(cid, param);
 
         return ResponseEntity.ok(null);
     }
