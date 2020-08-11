@@ -58,16 +58,16 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
     - Request Body
     ``` json
     {  
-      "companyName": (String),    //  회사명
-      "connectionId": (Long),     //  연동 ID
-      "usersTotal": (Long),       //  사용자 총 계정수
-      "usersUse": (Long),         //  사용 계정수
-      "accountCount": (int),      //  계정과목 수
-      "serviceInUse": (Boolean),  //  서비스 사용유무
-      "otherService": (Boolean),  //  타시스템 연동 여부
-      "createdAt": (Date),        //  생성일
-      "modifiedAt": (Date),       //  수정일
-      "deletedAt": (Date)         //  삭제일
+      "companyName": "(String)",    //  회사명
+      "connectionId": "(Long)",     //  연동 ID
+      "usersTotal": "(Long)",       //  사용자 총 계정수
+      "usersUse": "(Long)",         //  사용 계정수
+      "accountCount": "(int)",      //  계정과목 수
+      "serviceInUse": "(Boolean)",  //  서비스 사용유무
+      "otherService": "(Boolean)",  //  타시스템 연동 여부
+      "createdAt": "(Date)",        //  생성일
+      "modifiedAt": "(Date)",       //  수정일
+      "deletedAt": "(Date)"         //  삭제일
     }
     ```
 
@@ -137,16 +137,16 @@ Accounter는 CRUD 동작을 지원하며 요청 형식은 다음과 같습니다
     - Request Body
     ``` json
     {
-      "accountSytem": (String),                     // 계정체계
-      "accountSubjectNameDetail": (String),         // 과목명(세목)
-      "accountSubjectName": (String),               // 과목명(목)
-      "relationAccountSubjectNameDetail": (String), // 관계계정과목명
-      "division": (Long),                           // 회사코드
-      "accountCode": (Long),                        // 계정코드
-      "relationCode": (Long),                       // 관계코드
-      "createdAt": (Date),                          // 생성일
-      "modifiedAt": (Date),                         // 수정일
-      "deletedAt": (Date)                           // 삭제일
+      "accountSytem": "(String)",                     // 계정체계
+      "accountSubjectNameDetail": "(String)",         // 과목명(세목)
+      "accountSubjectName": "(String)",               // 과목명(목)
+      "relationAccountSubjectNameDetail": "(String)", // 관계계정과목명
+      "division": "(Long)",                           // 회사코드
+      "accountCode": "(Long)",                        // 계정코드
+      "relationCode": "(Long)",                       // 관계코드
+      "createdAt": "(Date)",                          // 생성일
+      "modifiedAt": "(Date)",                         // 수정일
+      "deletedAt": "(Date)"                           // 삭제일
     }
     ```
     - Response Body
