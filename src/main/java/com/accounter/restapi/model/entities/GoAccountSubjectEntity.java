@@ -24,12 +24,12 @@ public class GoAccountSubjectEntity {
     @GeneratedValue
     private Long accountId;
 
+    private String companyName;
     private String accountSystem;
     private String accountSubjectNameDetail;
     private String accountSubjectName;
     private String relationAccountSubjectNameDetail;
 
-    private Long division;
     private Long accountCode;
     private Long relationCode;
 

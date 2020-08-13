@@ -19,7 +19,7 @@ public class AccountService {
 
     // JPA 데이터 저장 Repository
     @Autowired
-    GoAccountSubjectRepo goAccountSubjectRepo;
+    private GoAccountSubjectRepo goAccountSubjectRepo;
 
     // DB의 모든 계정 정보를 반환
     // 반환 시 httpStatusWrapper에 감싸 HTTP 상태 표시

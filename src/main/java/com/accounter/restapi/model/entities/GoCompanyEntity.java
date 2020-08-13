@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 // DB에 저장 될 go_company Table을 정의합니다.
@@ -27,8 +28,16 @@ public class GoCompanyEntity {
     private Long connectionId;
     private Long usersTotal;
     private Long usersUse;
+    private Long usersDeleted;
 
-    private int accountCount;
+    @OneToMany(
+            targetEntity = GoAccountSubjectEntity.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "company_id"
+    )
+    private List<GoAccountSubjectEntity> goAccountSubjectEntity;
 
     private Boolean serviceInUse;
     private Boolean otherService;

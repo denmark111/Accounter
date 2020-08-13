@@ -1,6 +1,5 @@
 package com.accounter.restapi.service;
 
-import com.accounter.restapi.model.entities.GoAccountSubjectEntity;
 import com.accounter.restapi.model.entities.GoCompanyEntity;
 import com.accounter.restapi.model.params.GoCompanyParam;
 import com.accounter.restapi.model.results.GoCompanyResult;
@@ -20,11 +19,11 @@ import java.util.stream.Collectors;
 public class CompanyService {
 
     @Autowired
-    GoCompanyRepo goCompanyRepo;
+    private GoCompanyRepo goCompanyRepo;
 
     // 기업이 가진 계정정보를 불러오려면 Account 정보에도 접근이 필요함
     @Autowired
-    GoAccountSubjectRepo goAccountSubjectRepo;
+    private GoAccountSubjectRepo goAccountSubjectRepo;
 
     // DB의 모든 기업 정보를 반환
     // 반환 시 httpStatusWrapper에 감싸 HTTP 상태 표시
@@ -40,11 +39,9 @@ public class CompanyService {
         // Controller에 전달할 별도의 객체에 값 옮기기
         List<GoCompanyResult> results = companyList.stream().map(goCompanyEntity -> {
             GoCompanyResult companyResult = new GoCompanyResult();
-            List<GoAccountSubjectEntity> accountList = goAccountSubjectRepo.findAll();
 
             BeanUtils.copyProperties(goCompanyEntity, companyResult);
-            companyResult.setAccountCount(accountList.size());
-            companyResult.setAccounts(accountList);
+            companyResult.setAccounts(goCompanyEntity.getGoAccountSubjectEntity());
 
             return companyResult;
         }).collect(Collectors.toList());
@@ -68,11 +65,9 @@ public class CompanyService {
 
         hsw.setReturnResult(goCompanyRepo.findById(cid).map(goCompanyEntity -> {
             GoCompanyResult companyResult = new GoCompanyResult();
-            List<GoAccountSubjectEntity> accountList = goAccountSubjectRepo.findByDivision(cid);
 
             BeanUtils.copyProperties(goCompanyEntity, companyResult);
-            companyResult.setAccountCount(accountList.size());
-            companyResult.setAccounts(accountList);
+            companyResult.setAccounts(goCompanyEntity.getGoAccountSubjectEntity());
 
             return companyResult;
         }));
