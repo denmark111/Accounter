@@ -44,7 +44,7 @@ public class FileService {
 
         try (CSVReader reader = new CSVReader(
                                 new BufferedReader(
-                                new InputStreamReader(param.getAccount()                                                                                                                                                                                                                                                                                                                                                                                                                                                    .getInputStream())))) {
+                                new InputStreamReader(param.getAccount().getInputStream())))) {
 
             CsvToBean<GoAccountFileEntity> accountList = new CsvToBeanBuilder(reader)
                     .withType(GoAccountFileEntity.class)
@@ -75,7 +75,7 @@ public class FileService {
 
         try (CSVReader reader = new CSVReader(
                                 new BufferedReader(
-                                new InputStreamReader(param.getCompany()                                                                                                                                                                                                                                                                                                                                                                                                                                                    .getInputStream())))) {
+                                new InputStreamReader(param.getCompany().getInputStream())))) {
 
             CsvToBean<GoCompanyFileEntity> companyList = new CsvToBeanBuilder(reader)
                     .withType(GoCompanyFileEntity.class)
