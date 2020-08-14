@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/companies")
+@RequestMapping("/account")
 public class CompanyController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class CompanyController {
     }
 
     @GetMapping(
-            value = "/{cid}",
+            value = "/{cid}/list",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity get(@PathVariable("cid") Long cid) {

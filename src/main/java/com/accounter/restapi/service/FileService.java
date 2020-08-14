@@ -39,7 +39,7 @@ public class FileService {
         hsw.setStatusCode("200");
         hsw.setStatusMessage("OK");
 
-        int batch_size = 100;
+        int batch_size = 5000;
 
         try (CSVReader reader = new CSVReader(
                                 new BufferedReader(
@@ -49,6 +49,7 @@ public class FileService {
                     .withType(GoAccountFileEntity.class)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
+
 
             Iterator<GoAccountFileEntity> gafeIter = accountList.iterator();
 
