@@ -57,13 +57,13 @@ public class AccountService {
 
         httpStatusWrapper hsw = new httpStatusWrapper();
 
-        hsw.setReturnResult(goAccountSubjectRepo.findById(aid).map((goAccountSubjectEntity -> {
+        hsw.setReturnResult(goAccountSubjectRepo.findById(aid).map(goAccountSubjectEntity -> {
             GoAccountSubjectResult goAccountSubjectResult = new GoAccountSubjectResult();
 
             BeanUtils.copyProperties(goAccountSubjectEntity, goAccountSubjectResult);
 
             return goAccountSubjectResult;
-        })));
+        }));
 
         hsw.setStatusCode("200");
         hsw.setStatusMessage("OK");

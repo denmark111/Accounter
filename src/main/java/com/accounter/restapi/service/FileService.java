@@ -10,7 +10,9 @@ import com.accounter.restapi.repository.GoAccountSubjectRepo;
 import com.accounter.restapi.repository.GoCompanyRepo;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
+import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -30,27 +33,6 @@ public class FileService {
     @Autowired
     private GoAccountSubjectRepo goAccountSubjectRepo;
 
-    private <T> List<T> beanFromCsv(final MultipartFile file, final Class<T> beanClass) {
-
-        try (CSVReader reader = new CSVReader(new BufferedReader(new InputStreamReader(file.getInputStream())))) {
-
-            HeaderColumnNameMappingStrategy<T> mappingStrategy = new HeaderColumnNameMappingStrategy<T>();
-            mappingStrategy.setType(beanClass);
-
-            CsvToBean<T> csvToBean = new CsvToBean<T>();
-            csvToBean.setMappingStrategy(mappingStrategy);
-            csvToBean.setCsvReader(reader);
-
-            return csvToBean.parse();
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
     @Transactional
     public httpStatusWrapper importCsv(GoFileParam param) {
         httpStatusWrapper hsw = new httpStatusWrapper();
@@ -58,40 +40,68 @@ public class FileService {
         hsw.setStatusCode("200");
         hsw.setStatusMessage("OK");
 
-        List<String> status = new ArrayList();
+        int batch_size = 100;
 
-        List<GoAccountSubjectEntity> accountEntities = new ArrayList();
-        List<GoAccountFileEntity> accountList = beanFromCsv(param.getAccount(), GoAccountFileEntity.class);
+        try (CSVReader reader = new CSVReader(
+                                new BufferedReader(
+                                new InputStreamReader(param.getAccount()                                                                                                                                                                                                                                                                                                                                                                                                                                                    .getInputStream())))) {
 
-        if (accountList == null) {
-            status.add(param.getAccount().getOriginalFilename() + " => Failed to read");
-        }
-        else {
-            for(GoAccountFileEntity account:accountList) {
+            CsvToBean<GoAccountFileEntity> accountList = new CsvToBeanBuilder(reader)
+                    .withType(GoAccountFileEntity.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+
+            Iterator<GoAccountFileEntity> gafeIter = accountList.iterator();
+
+            List<GoAccountSubjectEntity> acl = new ArrayList();
+            while(gafeIter.hasNext()) {
+
                 GoAccountSubjectEntity gase = new GoAccountSubjectEntity();
-                BeanUtils.copyProperties(account, gase);
-                accountEntities.add(gase);
+                BeanUtils.copyProperties(gafeIter.next(), gase);
+                acl.add(gase);
+
+                if (acl.size() > batch_size) {
+                    goAccountSubjectRepo.saveAll(acl);
+                    acl.clear();
+                }
             }
-            goAccountSubjectRepo.saveAll(accountEntities);
+            goAccountSubjectRepo.saveAll(acl);
+        }
+        catch (IOException ie) {
+            ie.printStackTrace();
         }
 
-        List<GoCompanyEntity> companyEntities = new ArrayList();
-        List<GoCompanyFileEntity> companyList = beanFromCsv(param.getCompany(), GoCompanyFileEntity.class);
 
-        if (companyList == null) {
-            status.add(param.getCompany().getOriginalFilename() + " => Failed to read");
-        }
-        else {
-            for(GoCompanyFileEntity company:companyList) {
+
+        try (CSVReader reader = new CSVReader(
+                                new BufferedReader(
+                                new InputStreamReader(param.getCompany()                                                                                                                                                                                                                                                                                                                                                                                                                                                    .getInputStream())))) {
+
+            CsvToBean<GoCompanyFileEntity> companyList = new CsvToBeanBuilder(reader)
+                    .withType(GoCompanyFileEntity.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+
+            Iterator<GoCompanyFileEntity> gcfeIter = companyList.iterator();
+
+            List<GoCompanyEntity> cpl = new ArrayList();
+            while(gcfeIter.hasNext()) {
+
                 GoCompanyEntity gce = new GoCompanyEntity();
-                BeanUtils.copyProperties(company, gce);
+                BeanUtils.copyProperties(gcfeIter.next(), gce);
                 gce.setGoAccountSubjectEntity(goAccountSubjectRepo.findByCompanyName(gce.getCompanyName()));
-                companyEntities.add(gce);
-            }
-            goCompanyRepo.saveAll(companyEntities);
-        }
+                cpl.add(gce);
 
-        hsw.setReturnResult(status);
+                if (cpl.size() > batch_size) {
+                    goCompanyRepo.saveAll(cpl);
+                    cpl.clear();
+                }
+            }
+            goCompanyRepo.saveAll(cpl);
+        }
+        catch (IOException ie) {
+            ie.printStackTrace();
+        }
 
         return hsw;
     }
