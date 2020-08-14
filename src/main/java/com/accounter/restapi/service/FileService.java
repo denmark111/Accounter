@@ -34,6 +34,8 @@ public class FileService {
     public httpStatusWrapper importCsv(GoFileParam param) {
         httpStatusWrapper hsw = new httpStatusWrapper();
 
+        List<String> status = new ArrayList();
+
         hsw.setStatusCode("200");
         hsw.setStatusMessage("OK");
 
@@ -66,6 +68,7 @@ public class FileService {
         }
         catch (IOException ie) {
             ie.printStackTrace();
+            status.add("[IOException]" + param.getAccount().getOriginalFilename() + " => Failed to read");
         }
 
 
@@ -98,9 +101,11 @@ public class FileService {
         }
         catch (IOException ie) {
             ie.printStackTrace();
+            status.add("[IOException]" + param.getCompany().getOriginalFilename() + " => Failed to read");
         }
+
+        hsw.setReturnResult(status);
 
         return hsw;
     }
-
 }
