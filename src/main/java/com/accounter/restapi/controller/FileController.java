@@ -25,7 +25,8 @@ public class FileController {
             param.getCompany().isEmpty()) {
             return ResponseEntity.ok(null);
         }
-        else if (!param.getAccount().getContentType().equals("text/csv")) {
+        else if (!param.getAccount().getContentType().equals("text/csv") ||
+                param.getAccount().isEmpty()) {
             return ResponseEntity.ok(null);
         }
         else {
